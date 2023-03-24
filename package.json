@@ -1,0 +1,11 @@
+{
+  "name": "teste-smartse",
+  "version": "1.0.0",
+  "description": "Sistema de cadastro de veículos e abastecimentos.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dheniarley Cruz",
+  "license": "ISC"
+}
