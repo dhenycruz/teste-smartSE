@@ -1,15 +1,16 @@
-import express, { Express, Request, Response } from 'express'
-import dotenv from 'dotenv';
+import UserRouter from './routes/user.route'
+import App from './app'
+import dotenv from 'dotenv'
 
-dotenv.config();
+dotenv.config()
 
-const app: Express = express()
-const { PORT } = process.env;
+const { PORT } = process.env
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Wellcome to API')
-})
+// const userController = new UserController()
+const userRouter = new UserRouter()
 
-app.listen(PORT, () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${PORT}`)
-})
+void userRouter.addRoute()
+
+App.addRouter(userRouter.router)
+
+App.startServer(PORT)
