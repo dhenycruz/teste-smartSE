@@ -27,6 +27,34 @@ class UserModel {
     })
   }
 
+  async getUserEmail (email: string): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: {
+        email
+      },
+      select: {
+        id: true,
+        name: true,
+        cpf: true,
+        email: true
+      }
+    })
+  }
+
+  async getUserCPF (cpf: string): Promise<User | null> {
+    return await prisma.user.findUnique({
+      where: {
+        cpf
+      },
+      select: {
+        id: true,
+        name: true,
+        cpf: true,
+        email: true
+      }
+    })
+  }
+
   async create (body: UserBody): Promise <User | null> {
     return await prisma.user.create({
       data: body,
@@ -40,7 +68,7 @@ class UserModel {
   }
 
   async update (id: number, body: UserBodyUpdate): Promise <User | null> {
-    return await prisma.user.update({
+    const user = await prisma.user.update({
       where: { id },
       data: body,
       select: {
@@ -50,6 +78,10 @@ class UserModel {
         cpf: true
       }
     })
+
+    console.log(user)
+
+    return user
   }
 
   async delete (id: number): Promise<true | false> {
