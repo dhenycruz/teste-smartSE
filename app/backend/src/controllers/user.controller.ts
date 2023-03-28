@@ -18,7 +18,7 @@ class UserController {
     try {
       const users = await UserService.getAllUsers()
       return res.status(200).json({ data: users })
-    } catch (_e) {
+    } catch (e) {
       return res.status(500).json({ error: this.errorServer })
     }
   }
@@ -32,7 +32,7 @@ class UserController {
         return res.status(200).json(user)
       }
       return res.status(200).json({ message: 'Usuário não encontrado.' })
-    } catch (_e) {
+    } catch (e) {
       return res.status(500).json({ error: this.errorServer })
     }
   }
@@ -43,7 +43,7 @@ class UserController {
     try {
       const user = await UserService.createUser(body)
       return res.status(201).json({ message: 'Usuário cadastrado com sucesso!', user })
-    } catch (_e) {
+    } catch (e) {
       return res.status(500).json({ error: this.errorServer })
     }
   }
@@ -55,7 +55,7 @@ class UserController {
     try {
       const user = await UserService.updateUser(Number(id), body)
       return res.status(200).json({ message: 'Usuário atualizado com sucesso!', user })
-    } catch (_e) {
+    } catch (e) {
       return res.status(500).json({ error: this.errorServer })
     }
   }
@@ -66,7 +66,7 @@ class UserController {
       await UserService.deleteUser(Number(id))
       return res.status(200).json({ message: 'Usuário deletado com sucesso!' })
     } catch (e) {
-      return res.status(500).json({ error: 'Internal Server Error' })
+      return res.status(500).json({ error: this.errorServer })
     }
   }
 }

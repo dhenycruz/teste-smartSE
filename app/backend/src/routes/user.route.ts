@@ -12,7 +12,7 @@ class UserRouter {
     this.controller = new UserController()
   }
 
-  async addRoute (route: string = this.controller.route): Promise<void> {
+  addRoute (route: string = this.controller.route): void {
     this.router.get(route, this.controller.getAllUser)
     this.router.get(`${route}/:id`, this.controller.getUser)
     this.router.post(route, verifyExistsUserEmail, verifyExistsUserCPF, this.controller.createUser)
