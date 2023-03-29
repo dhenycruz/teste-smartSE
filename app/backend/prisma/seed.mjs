@@ -17,7 +17,7 @@ async function main () {
 
   console.log(user)
 
-  const car1 = await prisma.car.upsert({
+  const vehicle1 = await prisma.vehicle.upsert({
     where: { id: 1 },
     update: {},
     create: {
@@ -38,7 +38,7 @@ async function main () {
     }
   })
 
-  const car2 = await prisma.car.upsert({
+  const vehicle2 = await prisma.vehicle.upsert({
     where: { id: 2 },
     update: {},
     create: {
@@ -59,7 +59,7 @@ async function main () {
     }
   })
 
-  const car3 = await prisma.car.upsert({
+  const vehicle3 = await prisma.vehicle.upsert({
     where: { id: 3 },
     update: {},
     create: {
@@ -80,7 +80,7 @@ async function main () {
     }
   })
 
-  const car4 = await prisma.car.upsert({
+  const vehicle4 = await prisma.vehicle.upsert({
     where: { id: 4 },
     update: {},
     create: {
@@ -101,7 +101,7 @@ async function main () {
     }
   })
 
-  console.log(car1, car2, car3, car4)
+  console.log(vehicle1, vehicle2, vehicle3, vehicle4)
 }
 
 main()

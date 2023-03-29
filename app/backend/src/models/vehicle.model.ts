@@ -1,14 +1,19 @@
 import prisma from '../../prisma/connection'
-import { type Car, type CarBody } from '../interfaces/car'
+import { type Vehicle, type VehicleBody } from '../interfaces/vehicle'
 
-class CarModel {
-  async getCarChassi (chassi: string): Promise<Car | null> {
-    return await prisma.car.findUnique({
+class vehicleModel {
+  async getVehicleChassi (chassi: string): Promise<Vehicle | null> {
+    return await prisma.vehicle.findUnique({
       where: {
         chassi
       },
       select: {
         id: true,
+        cor: true,
+        potencia: true,
+        motor: true,
+        placa: true,
+        localizacao: true,
         modelo: true,
         anoFabricacao: true,
         anoModelo: true,
@@ -21,13 +26,18 @@ class CarModel {
     })
   }
 
-  async getCarRenavan (renavan: string): Promise<Car | null> {
-    return await prisma.car.findUnique({
+  async getVehicleRenavan (renavan: string): Promise<Vehicle | null> {
+    return await prisma.vehicle.findUnique({
       where: {
         renavan
       },
       select: {
         id: true,
+        cor: true,
+        potencia: true,
+        motor: true,
+        placa: true,
+        localizacao: true,
         modelo: true,
         anoFabricacao: true,
         anoModelo: true,
@@ -40,10 +50,15 @@ class CarModel {
     })
   }
 
-  async getAllCars (): Promise<Car[]> {
-    return await prisma.car.findMany({
+  async getAllVehicles (): Promise<Vehicle[]> {
+    return await prisma.vehicle.findMany({
       select: {
         id: true,
+        cor: true,
+        potencia: true,
+        motor: true,
+        placa: true,
+        localizacao: true,
         modelo: true,
         anoFabricacao: true,
         anoModelo: true,
@@ -56,13 +71,18 @@ class CarModel {
     })
   }
 
-  async getCar (id: number): Promise<Car | null> {
-    return await prisma.car.findUnique({
+  async getVehicle (id: number): Promise<Vehicle | null> {
+    return await prisma.vehicle.findUnique({
       where: {
         id
       },
       select: {
         id: true,
+        cor: true,
+        potencia: true,
+        motor: true,
+        placa: true,
+        localizacao: true,
         modelo: true,
         anoFabricacao: true,
         anoModelo: true,
@@ -75,15 +95,20 @@ class CarModel {
     })
   }
 
-  async create (body: CarBody): Promise <Car | null> {
-    return await prisma.car.create({
+  async create (body: VehicleBody): Promise <Vehicle | null> {
+    return await prisma.vehicle.create({
       data: body,
       select: {
         id: true,
-        marca: true,
+        cor: true,
+        potencia: true,
+        motor: true,
+        placa: true,
+        localizacao: true,
         modelo: true,
-        anoModelo: true,
         anoFabricacao: true,
+        anoModelo: true,
+        marca: true,
         renavan: true,
         chassi: true,
         image: true,
@@ -92,16 +117,21 @@ class CarModel {
     })
   }
 
-  async update (id: number, body: CarBody): Promise<Car | null> {
-    return await prisma.car.update({
+  async update (id: number, body: VehicleBody): Promise<Vehicle | null> {
+    return await prisma.vehicle.update({
       where: { id },
       data: body,
       select: {
         id: true,
-        marca: true,
+        cor: true,
+        potencia: true,
+        motor: true,
+        placa: true,
+        localizacao: true,
         modelo: true,
-        anoModelo: true,
         anoFabricacao: true,
+        anoModelo: true,
+        marca: true,
         renavan: true,
         chassi: true,
         image: true,
@@ -112,7 +142,7 @@ class CarModel {
 
   async delete (id: number): Promise<true | false> {
     try {
-      await prisma.car.delete({
+      await prisma.vehicle.delete({
         where: { id }
       })
 
@@ -123,4 +153,4 @@ class CarModel {
   }
 }
 
-export default CarModel
+export default vehicleModel

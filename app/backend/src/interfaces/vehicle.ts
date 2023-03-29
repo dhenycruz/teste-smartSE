@@ -1,5 +1,10 @@
-export interface Car {
+export interface Vehicle {
   id: number
+  cor: string
+  potencia: string
+  motor: string
+  placa: string
+  localizacao: string
   marca: string
   modelo: string
   anoModelo: number
@@ -10,7 +15,12 @@ export interface Car {
   userId: number
 }
 
-export interface CarBody {
+export interface VehicleBody {
+  cor: string
+  potencia: string
+  motor: string
+  placa: string
+  localizacao: string
   marca: string
   modelo: string
   anoModelo: number

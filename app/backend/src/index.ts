@@ -1,5 +1,5 @@
 import UserRouter from './routes/user.route'
-import CarRouter from './routes/car.route'
+import VehicleRouter from './routes/vehicle.route'
 import App from './app'
 import dotenv from 'dotenv'
 
@@ -9,7 +9,7 @@ const { PORT } = process.env
 
 // const userController = new UserController()
 const userRouter = new UserRouter()
-const carRouter = new CarRouter()
+const carRouter = new VehicleRouter()
 
 userRouter.addRoute()
 carRouter.addRoute()
