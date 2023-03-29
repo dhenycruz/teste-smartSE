@@ -68,7 +68,7 @@ class UserModel {
   }
 
   async update (id: number, body: UserBodyUpdate): Promise <User | null> {
-    const user = await prisma.user.update({
+    return await prisma.user.update({
       where: { id },
       data: body,
       select: {
@@ -78,10 +78,6 @@ class UserModel {
         cpf: true
       }
     })
-
-    console.log(user)
-
-    return user
   }
 
   async delete (id: number): Promise<true | false> {
