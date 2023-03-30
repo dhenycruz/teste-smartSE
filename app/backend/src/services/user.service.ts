@@ -8,7 +8,7 @@ class UserService {
     this.model = new UserModel()
   }
 
-  async getAllUsers (): Promise <User[]> {
+  async getAllUsers (): Promise<User[]> {
     return await this.model.getAllUsers()
   }
 

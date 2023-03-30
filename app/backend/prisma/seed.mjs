@@ -17,11 +17,16 @@ async function main () {
 
   console.log(user)
 
-  const car1 = await prisma.car.upsert({
+  const vehicle1 = await prisma.vehicle.upsert({
     where: { id: 1 },
     update: {},
     create: {
       id: 1,
+      cor: 'BRANCO',
+      potencia: '185 cv',
+      motor: '2.0',
+      placa: 'ABC-4567',
+      localizacao: 'São Paulo - SP',
       marca: 'FIAT',
       modelo: 'TORO',
       anoModelo: 2018,
@@ -33,11 +38,16 @@ async function main () {
     }
   })
 
-  const car2 = await prisma.car.upsert({
+  const vehicle2 = await prisma.vehicle.upsert({
     where: { id: 2 },
     update: {},
     create: {
       id: 2,
+      cor: 'BRANCO',
+      potencia: '77 cv',
+      motor: '1.0',
+      placa: 'ABC-3456',
+      localizacao: 'São Paulo - SP',
       marca: 'VOLKSWAGEN',
       modelo: 'GOL',
       anoModelo: 2018,
@@ -49,11 +59,16 @@ async function main () {
     }
   })
 
-  const car3 = await prisma.car.upsert({
+  const vehicle3 = await prisma.vehicle.upsert({
     where: { id: 3 },
     update: {},
     create: {
       id: 3,
+      cor: 'BRANCO',
+      potencia: '77 cv',
+      motor: '1.0',
+      placa: 'ABC-2345',
+      localizacao: 'São Paulo - SP',
       marca: 'FIAT',
       modelo: 'UNO WAY',
       anoModelo: 2018,
@@ -65,11 +80,16 @@ async function main () {
     }
   })
 
-  const car4 = await prisma.car.upsert({
+  const vehicle4 = await prisma.vehicle.upsert({
     where: { id: 4 },
     update: {},
     create: {
       id: 4,
+      cor: 'PRETO',
+      potencia: '77 cv',
+      motor: '1.0',
+      placa: 'ABC-1234',
+      localizacao: 'São Paulo - SP',
       marca: 'RENAULT',
       modelo: 'Clio',
       anoModelo: 2018,
@@ -81,7 +101,45 @@ async function main () {
     }
   })
 
-  console.log(car1, car2, car3, car4)
+  console.log(vehicle1, vehicle2, vehicle3, vehicle4)
+
+  const fueling1 = await prisma.fuelingData.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      type_fuel: 'diesel',
+      value: 158.88,
+      quantity_fueled: 26.7,
+      carId: 1
+    }
+  })
+
+  const fueling2 = await prisma.fuelingData.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      id: 2,
+      type_fuel: 'diesel',
+      value: 330.00,
+      quantity_fueled: 55.5,
+      carId: 1
+    }
+  })
+
+  const fueling3 = await prisma.fuelingData.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      id: 3,
+      type_fuel: 'diesel',
+      value: 258.99,
+      quantity_fueled: 43.6,
+      carId: 1
+    }
+  })
+
+  console.log(fueling1, fueling2, fueling3)
 }
 
 main()
