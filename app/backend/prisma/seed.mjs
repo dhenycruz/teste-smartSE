@@ -102,6 +102,44 @@ async function main () {
   })
 
   console.log(vehicle1, vehicle2, vehicle3, vehicle4)
+
+  const fueling1 = await prisma.fuelingData.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
+      id: 1,
+      type_fuel: 'diesel',
+      value: 158.88,
+      quantity_fueled: 26.7,
+      carId: 1
+    }
+  })
+
+  const fueling2 = await prisma.fuelingData.upsert({
+    where: { id: 2 },
+    update: {},
+    create: {
+      id: 2,
+      type_fuel: 'diesel',
+      value: 330.00,
+      quantity_fueled: 55.5,
+      carId: 1
+    }
+  })
+
+  const fueling3 = await prisma.fuelingData.upsert({
+    where: { id: 3 },
+    update: {},
+    create: {
+      id: 3,
+      type_fuel: 'diesel',
+      value: 258.99,
+      quantity_fueled: 43.6,
+      carId: 1
+    }
+  })
+
+  console.log(fueling1, fueling2, fueling3)
 }
 
 main()

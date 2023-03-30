@@ -66,7 +66,16 @@ class vehicleModel {
         renavan: true,
         chassi: true,
         image: true,
-        userId: true
+        userId: true,
+        Fuelings: {
+          select: {
+            id: true,
+            type_fuel: true,
+            value: true,
+            quantity_fueled: true,
+            carId: true
+          }
+        }
       }
     })
   }
@@ -90,7 +99,16 @@ class vehicleModel {
         renavan: true,
         chassi: true,
         image: true,
-        userId: true
+        userId: true,
+        Fuelings: {
+          select: {
+            id: true,
+            type_fuel: true,
+            value: true,
+            quantity_fueled: true,
+            carId: true
+          }
+        }
       }
     })
   }
