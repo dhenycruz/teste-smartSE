@@ -50,7 +50,8 @@ class UserModel {
         id: true,
         name: true,
         cpf: true,
-        email: true
+        email: true,
+        password: true
       }
     })
   }

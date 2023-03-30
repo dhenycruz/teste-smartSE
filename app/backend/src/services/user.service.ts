@@ -1,3 +1,4 @@
+import { genSalt, hash } from 'bcryptjs'
 import UserModel from '../models/user.model'
 import { type UserBody, type User, type UserBodyUpdate } from '../interfaces/user'
 
@@ -21,7 +22,15 @@ class UserService {
   }
 
   async createUser (body: UserBody): Promise<User | null> {
-    return await this.model.create(body)
+    const { name, cpf, email, password } = body
+    const salt = await genSalt(10)
+    const newPassword = await hash(password, salt)
+    return await this.model.create({
+      name,
+      cpf,
+      email,
+      password: newPassword
+    })
   }
 
   async updateUser (id: number, body: UserBodyUpdate): Promise<User | null> {
