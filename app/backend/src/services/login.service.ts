@@ -26,6 +26,8 @@ export const logining = async (cpf: string, password: string): Promise <false | 
   if (user !== null) {
     const token = createToken(user)
 
+    delete user.password
+
     if (token !== false) {
       return {
         user,

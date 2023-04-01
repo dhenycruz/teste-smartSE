@@ -1,21 +1,29 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Box, Typography, TextField, Button } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import api from '../axios/api'
+import { GlobalContext } from '../context/globalContext'
 
 const FormLogin = (): React.ReactElement => {
+  const { saveLoginToken } = useContext(GlobalContext)
   const [apiError, setApiEror] = useState<string[]>([])
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const submitLogin = handleSubmit((data) => {
-    console.log(data)
+  const navigate = useNavigate()
+
+  const redirect = (url: string): void => {
+    navigate(url)
+  }
+
+  const submitLogin = handleSubmit(async (data) => {
     void api.post('/login', data)
       .then(({ data }) => {
         setApiEror([])
-        console.log(data)
+        saveLoginToken(data.user, data.token)
+        redirect('/dashboard')
       }).catch((error) => {
-        console.log(error.response.data.message)
         setApiEror([error.response.data.message])
       })
   })
