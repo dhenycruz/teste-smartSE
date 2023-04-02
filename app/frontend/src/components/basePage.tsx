@@ -83,7 +83,7 @@ export default function BasePage (): React.ReactElement {
 
   const mdTheme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: 'light',
       primary: {
         main: '#1976d2'
       }

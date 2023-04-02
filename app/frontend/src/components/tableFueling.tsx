@@ -1,74 +1,118 @@
-import * as React from 'react'
-import Box from '@mui/material/Box'
-import { DataGrid, type GridColDef, type GridValueGetterParams } from '@mui/x-data-grid'
+/* eslint-disable no-octal */
+import React, { useState } from 'react'
+import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import { Button, Box } from '@mui/material'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import EditIcon from '@mui/icons-material/Edit'
+import FeedIcon from '@mui/icons-material/Feed'
+import api from '../axios/api'
+import { type Fueling } from '../interfaces/fueling'
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  { field: 'id', headerName: 'ID', width: 40 },
   {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: true
+    field: 'carId',
+    headerName: 'Veículo',
+    width: 150
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true
+    field: 'type_fuel',
+    headerName: 'Tipo',
+    width: 100,
+    renderCell: (params) => params.value.toUpperCase()
   },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
-    width: 150,
-    editable: true
+    field: 'quantity',
+    headerName: 'Quantidade(Litros)',
+    width: 150
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 200,
-    valueGetter: (params: GridValueGetterParams): string =>
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`
+    field: 'valueFormated',
+    headerName: 'Valor',
+    width: 100
+  },
+  {
+    field: 'date',
+    headerName: 'Data',
+    width: 200
   },
   {
     field: 'deletar',
+    headerName: 'Deletar',
     description: 'Deletar usuário',
-    width: 100
+    width: 100,
+    renderCell: (params) => (
+      <Button
+        variant="outlined"
+        color="error"
+        size="small"
+      >
+        <DeleteForeverIcon />
+      </Button>
+    )
   },
   {
     field: 'editar',
-    description: 'Deletar usuário',
-    width: 100
+    description: 'Editar usuário',
+    width: 100,
+    renderCell: (params) => (
+      <Button
+        variant="outlined"
+        color="primary"
+        size="small"
+      >
+        <EditIcon />
+      </Button>
+    )
   },
   {
     field: 'detalhes',
-    description: 'Deletar usuário',
-    width: 100
+    description: 'Detalhes do Veículo',
+    width: 100,
+    renderCell: (params) => (
+      <Button
+        variant="outlined"
+        color="success"
+        size="small"
+      >
+        <FeedIcon />
+      </Button>
+    )
   }
 ]
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 }
-]
+interface IFueling extends Fueling {
+  quantity?: string
+  valueFormated?: string
+  date?: string
+  deletar?: number
+  editar?: number
+  detalhes?: number
+}
 
 export default function TableFueling (): React.ReactElement {
+  const [fuelings, setFuelings] = useState<Fueling[]>([])
+
+  const rows = fuelings.map((fueling: IFueling) => {
+    fueling.valueFormated = Number(fueling.value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    const novaData = new Date(fueling.dateFueled)
+    fueling.date = novaData.toLocaleString('pt-BR')
+    fueling.quantity = `${fueling.quantity_fueled} Litros`
+    return fueling
+  })
+
+  useState(() => {
+    void api.get('/fuelings')
+      .then(({ data }) => {
+        setFuelings(data.data)
+      })
+  })
   return (
     <>
       <Box
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
       >
-        <h1>Abastecimentos(4)</h1>
+        <h1>Abastecimentos({fuelings.length})</h1>
       </Box>
       <Box sx={{ height: 630, width: '100%' }}>
         <DataGrid

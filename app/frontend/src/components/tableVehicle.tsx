@@ -1,94 +1,151 @@
-import * as React from 'react'
+import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
-import { DataGrid, type GridColDef, type GridValueGetterParams } from '@mui/x-data-grid'
-import { Button } from '@mui/material'
+import { DataGrid, type GridColDef } from '@mui/x-data-grid'
+import { Button, Avatar } from '@mui/material'
+import api from '../axios/api'
+import { type Vehicle } from '../interfaces/vehicles'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import EditIcon from '@mui/icons-material/Edit'
+import FeedIcon from '@mui/icons-material/Feed'
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  { field: 'id', headerName: 'ID', width: 40 },
   {
-    field: 'firstName',
-    headerName: 'First name',
-    width: 150,
-    editable: true
+    field: 'image',
+    headerName: '',
+    width: 80,
+    editable: false,
+    renderCell: (params) => (
+      <Avatar alt="Remy Sharp" src={params.value} />
+    )
   },
   {
-    field: 'lastName',
-    headerName: 'Last name',
-    width: 150,
-    editable: true
+    field: 'modelo',
+    headerName: 'Modelo',
+    width: 120,
+    editable: false
   },
   {
-    field: 'age',
-    headerName: 'Age',
-    type: 'number',
+    field: 'marca',
+    headerName: 'Marca',
     width: 150,
-    editable: true
+    editable: false
   },
   {
-    field: 'fullName',
-    headerName: 'Full name',
-    description: 'This column has a value getter and is not sortable.',
-    sortable: false,
-    width: 200,
-    valueGetter: (params: GridValueGetterParams): string =>
-      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/strict-boolean-expressions
-      `${params.row.firstName || ''} ${params.row.lastName || ''}`
+    field: 'cor',
+    headerName: 'Cor',
+    width: 100,
+    editable: false
+  },
+  {
+    field: 'placa',
+    headerName: 'Placa',
+    width: 150,
+    editable: false
+  },
+  {
+    field: 'localizacao',
+    headerName: 'Cidade/Estado',
+    width: 120,
+    editable: false
   },
   {
     field: 'deletar',
+    headerName: 'Deletar',
     description: 'Deletar usuário',
-    width: 100
+    width: 100,
+    renderCell: (params) => (
+      <Button
+        variant="outlined"
+        color="error"
+        size="small"
+      >
+        <DeleteForeverIcon />
+      </Button>
+    )
   },
   {
     field: 'editar',
-    description: 'Deletar usuário',
-    width: 100
+    description: 'Editar usuário',
+    width: 100,
+    renderCell: (params) => (
+      <Button
+        variant="outlined"
+        color="primary"
+        size="small"
+      >
+        <EditIcon />
+      </Button>
+    )
   },
   {
     field: 'detalhes',
-    description: 'Deletar usuário',
-    width: 100
+    description: 'Detalhes do Veículo',
+    width: 100,
+    renderCell: (params) => (
+      <Button
+        variant="outlined"
+        color="success"
+        size="small"
+      >
+        <FeedIcon />
+      </Button>
+    )
   }
 ]
 
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null },
-  { id: 6, lastName: 'Melisandre', firstName: null, age: 150 },
-  { id: 7, lastName: 'Clifford', firstName: 'Ferrara', age: 44 },
-  { id: 8, lastName: 'Frances', firstName: 'Rossini', age: 36 },
-  { id: 9, lastName: 'Roxie', firstName: 'Harvey', age: 65 }
-]
-
+interface IVehicle extends Vehicle {
+  abastecimentos?: number
+  deletar?: number
+  editar?: number
+  detalhes?: number
+}
 export default function TableVehicle (): React.ReactElement {
+  const [vehicles, setVehicles] = useState<Vehicle[]>([])
+
+  const rows = vehicles.map((vehicle: IVehicle) => {
+    vehicle.abastecimentos = vehicle.id
+    vehicle.deletar = vehicle.id
+    vehicle.editar = vehicle.id
+    vehicle.detalhes = vehicle.id
+    return vehicle
+  })
+
+  useEffect(() => {
+    void api.get('/vehicles')
+      .then(({ data }) => {
+        console.log(data)
+        setVehicles(data.data)
+      })
+      .catch((res) => {
+        console.log(res)
+      })
+  }, [])
   return (
     <>
       <Box
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
       >
-        <h1>Veículos(4)</h1>
+        <h1>Veículos({vehicles.length})</h1>
         <div>
           <Button variant="outlined" color="primary">Adicionar novo Veículo</Button>
         </div>
       </Box>
-      <Box sx={{ height: 630, width: '100%' }}>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 10
+      <Box height={600} sx={{ width: '100%' }}>
+          <DataGrid
+            rows={rows}
+            columns={columns}
+            initialState={{
+              pagination: {
+                paginationModel: {
+                  pageSize: 10
+                }
               }
-            }
-          }}
-          pageSizeOptions={[15]}
-          checkboxSelection
-          disableRowSelectionOnClick
-        />
+            }}
+            pageSizeOptions={[15]}
+            checkboxSelection
+            disableRowSelectionOnClick
+          />
       </Box>
     </>
   )
