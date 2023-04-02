@@ -50,12 +50,14 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }): Rea
           }
         )
           .then(({ data }) => {
-            console.log(data)
+            console.log('ok')
           })
           .catch(({ response }) => {
             console.log(response.data.auth)
             logout()
           })
+      } else {
+        redirect('/')
       }
     }
   }

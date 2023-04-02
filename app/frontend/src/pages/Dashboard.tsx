@@ -1,5 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { GlobalContext } from '../context/globalContext'
+import BasePage from '../components/basePage'
+// import TableCar from '../components/table'
 
 const DahsBoard = (): React.ReactElement => {
   const { validateLogin } = useContext(GlobalContext)
@@ -9,7 +11,9 @@ const DahsBoard = (): React.ReactElement => {
   }, [])
 
   return (
-    <h1>Dashboard</h1>
+    <>
+      <BasePage />
+    </>
   )
 }
 
