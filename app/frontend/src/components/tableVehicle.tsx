@@ -9,6 +9,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import FeedIcon from '@mui/icons-material/Feed'
 import DeleteVehicleModal from './modals/delete/deleteVehicle'
 import CreateVehicleModal from './modals/create/createVehicle'
+import CreateFuelingModal from './modals/create/createFueling'
 import { GlobalContext } from '../context/globalContext'
 import UpdateVehicleModal from './modals/update/updateVehicle'
 import DetailsVehicleModal from './modals/details/detailsVehicle'
@@ -24,6 +25,7 @@ export default function TableVehicle (): React.ReactElement {
   const { vehicles, setVehicles } = useContext(GlobalContext)
   const [open, setOpen] = useState<boolean>(false)
   const [openAdd, setOpenAdd] = useState<boolean>(false)
+  const [openAddFueling, setOpenAddFueling] = useState<boolean>(false)
   const [openUp, setOpenUp] = useState<boolean>(false)
   const [openDetails, setOpenDetails] = useState<boolean>(false)
   const [selectVehicle, setSelectVehicle] = useState<Vehicle | null>(null)
@@ -166,8 +168,16 @@ export default function TableVehicle (): React.ReactElement {
             variant="outlined"
             color="primary"
             onClick={() => { setOpenAdd(true) }}
+            sx={{ mr: 2 }}
           >
             Adicionar novo Veículo
+          </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => { setOpenAddFueling(true) }}
+          >
+            Abaster um carro
           </Button>
         </div>
       </Box>
@@ -191,6 +201,7 @@ export default function TableVehicle (): React.ReactElement {
       <CreateVehicleModal openAdd={openAdd} setOpenAdd={setOpenAdd} />
       <UpdateVehicleModal vehicle={selectVehicle} openUp={openUp} setOpenUp={setOpenUp} />
       <DetailsVehicleModal vehicle={selectVehicle} openDetails={openDetails} setOpenDetails={setOpenDetails} />
+      <CreateFuelingModal openAdd={openAddFueling} setOpenAdd={setOpenAddFueling} />
     </>
   )
 }

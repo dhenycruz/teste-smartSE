@@ -65,7 +65,7 @@ const UpdateFuelingModal: React.FC<Props> = ({ openUp, setOpenUp, fueling }) => 
     if (fueling !== null) {
       reset(fueling)
     }
-  })
+  }, [fueling])
 
   return (
     <Modal
@@ -135,6 +135,7 @@ const UpdateFuelingModal: React.FC<Props> = ({ openUp, setOpenUp, fueling }) => 
             <TextField
               {...register('quantity_fueled')}
               label="Quantidade abastecida"
+              defaultValue={fueling?.quantity_fueled}
               id="outlined-start-adornment"
               sx={{ m: 1, width: '27ch' }}
               fullWidth

@@ -9,17 +9,24 @@ import api from '../axios/api'
 import { GlobalContext } from '../context/globalContext'
 import { type IUser } from '../interfaces/user'
 import DeleteUserModal from './modals/delete/deleteUser'
-import CreateVehicleModal from './modals/create/createVehicle'
+import CreateUserModal from './modals/create/createUser'
+import UpdateUserModal from './modals/update/updateUser'
 
 export default function TableUser (): React.ReactElement {
   const { users, setUsers } = useContext(GlobalContext)
   const [open, setOpen] = useState<boolean>(false)
   const [openAdd, setOpenAdd] = useState<boolean>(false)
+  const [openUp, setOpenUp] = useState<boolean>(false)
   const [selectUser, setSelectUser] = useState<IUser | null>(null)
 
   const handleOpen = (user: IUser): void => {
     setSelectUser(user)
     setOpen(true)
+  }
+
+  const handleOpenUp = (user: IUser): void => {
+    setSelectUser(user)
+    setOpenUp(true)
   }
 
   const handleOpenAdd = (): void => {
@@ -68,6 +75,7 @@ export default function TableUser (): React.ReactElement {
           variant="outlined"
           color="primary"
           size="small"
+          onClick={ () => { handleOpenUp(params.row) }}
         >
           <EditIcon />
         </Button>
@@ -117,7 +125,8 @@ export default function TableUser (): React.ReactElement {
         />
       </Box>
       <DeleteUserModal user={selectUser} open={open} setOpen={setOpen} />
-      <CreateVehicleModal openAdd={openAdd} setOpenAdd={setOpenAdd} />
+      <CreateUserModal openAdd={openAdd} setOpenAdd={setOpenAdd} />
+      <UpdateUserModal user={selectUser} openUp={openUp} setOpenUp={setOpenUp} />
     </>
   )
 }

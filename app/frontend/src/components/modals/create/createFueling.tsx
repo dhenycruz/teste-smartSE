@@ -6,7 +6,6 @@ import {
 } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import { type Vehicle } from '../../../interfaces/vehicles'
-// import api from '../../../axios/api'
 import { GlobalContext } from '../../../context/globalContext'
 import api from '../../../axios/api'
 
