@@ -3,19 +3,30 @@ import { useNavigate } from 'react-router-dom'
 import { type IUser } from '../interfaces/user'
 import { type IGlobalContext } from '../interfaces/globalcontext'
 import api from '../axios/api'
+import { type Vehicle } from '../interfaces/vehicles'
+import { type Fueling } from '../interfaces/fueling'
 
 const defaultValues = {
   loading: true,
   setLoading: () => {},
   saveLoginToken: () => {},
   validateLogin: () => false,
-  logout: () => {}
+  logout: () => {},
+  vehicles: [],
+  setVehicles: () => {},
+  fuelings: [],
+  setFuelings: () => {},
+  users: [],
+  setUsers: () => {}
 }
 
 export const GlobalContext = createContext<IGlobalContext>(defaultValues)
 
 export const GlobalProvider = ({ children }: { children: React.ReactNode }): React.ReactElement => {
   const [loading, setLoading] = useState(false)
+  const [vehicles, setVehicles] = useState<Vehicle[]>([])
+  const [fuelings, setFuelings] = useState<Fueling[]>([])
+  const [users, setUsers] = useState<IUser[]>([])
 
   const navigate = useNavigate()
 
@@ -68,7 +79,13 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }): Rea
       setLoading,
       saveLoginToken,
       validateLogin,
-      logout
+      logout,
+      vehicles,
+      setVehicles,
+      fuelings,
+      setFuelings,
+      users,
+      setUsers
     }}>
       {children}
     </GlobalContext.Provider>

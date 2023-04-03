@@ -1,62 +1,79 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import Box from '@mui/material/Box'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EditIcon from '@mui/icons-material/Edit'
 import { Button } from '@mui/material'
-import { type IUser } from '../interfaces/user'
+// import { type IUser } from '../interfaces/user'
 import api from '../axios/api'
-
-const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 40 },
-  {
-    field: 'name',
-    headerName: 'Nome',
-    width: 200
-  },
-  {
-    field: 'cpf',
-    headerName: 'CPF',
-    width: 200
-  },
-  {
-    field: 'email',
-    headerName: 'Email',
-    width: 300
-  },
-  {
-    field: 'deletar',
-    headerName: 'Deletar',
-    description: 'Deletar usuário',
-    width: 100,
-    renderCell: (params) => (
-      <Button
-        variant="outlined"
-        color="error"
-        size="small"
-      >
-        <DeleteForeverIcon />
-      </Button>
-    )
-  },
-  {
-    field: 'editar',
-    description: 'Editar usuário',
-    width: 100,
-    renderCell: (params) => (
-      <Button
-        variant="outlined"
-        color="primary"
-        size="small"
-      >
-        <EditIcon />
-      </Button>
-    )
-  }
-]
+import { GlobalContext } from '../context/globalContext'
+import { type IUser } from '../interfaces/user'
+import DeleteUserModal from './modals/delete/deleteUser'
+import CreateVehicleModal from './modals/create/createVehicle'
 
 export default function TableUser (): React.ReactElement {
-  const [users, setUsers] = useState<IUser[]>([])
+  const { users, setUsers } = useContext(GlobalContext)
+  const [open, setOpen] = useState<boolean>(false)
+  const [openAdd, setOpenAdd] = useState<boolean>(false)
+  const [selectUser, setSelectUser] = useState<IUser | null>(null)
+
+  const handleOpen = (user: IUser): void => {
+    setSelectUser(user)
+    setOpen(true)
+  }
+
+  const handleOpenAdd = (): void => {
+    setOpenAdd(true)
+  }
+
+  const columns: GridColDef[] = [
+    { field: 'id', headerName: 'ID', width: 40 },
+    {
+      field: 'name',
+      headerName: 'Nome',
+      width: 200
+    },
+    {
+      field: 'cpf',
+      headerName: 'CPF',
+      width: 200
+    },
+    {
+      field: 'email',
+      headerName: 'Email',
+      width: 300
+    },
+    {
+      field: 'deletar',
+      headerName: 'Deletar',
+      description: 'Deletar usuário',
+      width: 100,
+      renderCell: (params) => (
+        <Button
+          variant="outlined"
+          color="error"
+          size="small"
+          onClick={() => { handleOpen(params.row) }}
+        >
+          <DeleteForeverIcon />
+        </Button>
+      )
+    },
+    {
+      field: 'editar',
+      description: 'Editar usuário',
+      width: 100,
+      renderCell: (params) => (
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+        >
+          <EditIcon />
+        </Button>
+      )
+    }
+  ]
 
   const rows = users
 
@@ -71,9 +88,15 @@ export default function TableUser (): React.ReactElement {
       <Box
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
       >
-        <h1>Usuários(4)</h1>
+        <h1>Usuários({users.length})</h1>
         <div>
-          <Button variant="outlined" color="primary">Adicionar novo Usuário</Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={handleOpenAdd}
+          >
+            Adicionar novo Usuário
+          </Button>
         </div>
       </Box>
       <Box sx={{ height: 630, width: '100%' }}>
@@ -92,6 +115,8 @@ export default function TableUser (): React.ReactElement {
           disableRowSelectionOnClick
         />
       </Box>
+      <DeleteUserModal user={selectUser} open={open} setOpen={setOpen} />
+      <CreateVehicleModal openAdd={openAdd} setOpenAdd={setOpenAdd} />
     </>
   )
 }

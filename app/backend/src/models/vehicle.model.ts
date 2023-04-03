@@ -73,6 +73,7 @@ class vehicleModel {
             type_fuel: true,
             value: true,
             quantity_fueled: true,
+            dateFueled: true,
             carId: true
           }
         }
@@ -106,6 +107,7 @@ class vehicleModel {
             type_fuel: true,
             value: true,
             quantity_fueled: true,
+            dateFueled: true,
             carId: true
           }
         }

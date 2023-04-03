@@ -5,7 +5,7 @@ enum Fuel {
 }
 
 export interface Fueling {
-  id?: number
+  id: number
   type_fuel: Fuel
   value: string
   quantity_fueled: string
