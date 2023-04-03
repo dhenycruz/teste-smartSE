@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { type IUser } from '../interfaces/user'
 import { type IGlobalContext } from '../interfaces/globalcontext'
@@ -72,6 +72,26 @@ export const GlobalProvider = ({ children }: { children: React.ReactNode }): Rea
       }
     }
   }
+
+  useEffect(() => {
+    void api.get('/vehicles')
+      .then(({ data }) => {
+        setVehicles(data.data)
+      })
+      .catch((res) => {
+        console.log(res)
+      })
+
+    void api.get('/fuelings')
+      .then(({ data }) => {
+        setFuelings(data.data)
+      })
+
+    void api.get('/users')
+      .then(({ data }) => {
+        setUsers(data.data)
+      })
+  }, [])
 
   return (
     <GlobalContext.Provider value={{

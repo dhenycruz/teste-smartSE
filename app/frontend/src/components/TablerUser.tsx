@@ -83,6 +83,7 @@ export default function TableUser (): React.ReactElement {
         setUsers(data.data)
       })
   }, [])
+
   return (
     <>
       <Box

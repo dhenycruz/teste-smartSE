@@ -1,14 +1,15 @@
 /* eslint-disable no-octal */
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { DataGrid, type GridColDef } from '@mui/x-data-grid'
 import { Button, Box } from '@mui/material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EditIcon from '@mui/icons-material/Edit'
-import FeedIcon from '@mui/icons-material/Feed'
 import api from '../axios/api'
 import { type Fueling } from '../interfaces/fueling'
 import { GlobalContext } from '../context/globalContext'
 import DeleteFuelingModal from './modals/delete/deleteFuling'
+import CreateFuelingModal from './modals/create/createFueling'
+import UpdateFuelingModal from './modals/update/updateFueling'
 
 interface IFueling extends Fueling {
   quantity?: string
@@ -22,11 +23,18 @@ interface IFueling extends Fueling {
 export default function TableFueling (): React.ReactElement {
   const { fuelings, setFuelings } = useContext(GlobalContext)
   const [open, setOpen] = useState<boolean>(false)
+  const [openAdd, setOpenAdd] = useState<boolean>(false)
+  const [openUp, setOpenUp] = useState<boolean>(false)
   const [selectFueling, setSelectFueling] = useState<Fueling | null>(null)
 
   const handleOpen = (fueling: Fueling): void => {
     setSelectFueling(fueling)
     setOpen(true)
+  }
+
+  const handleOpenUp = (fueling: Fueling): void => {
+    setSelectFueling(fueling)
+    setOpenUp(true)
   }
 
   const columns: GridColDef[] = [
@@ -82,22 +90,9 @@ export default function TableFueling (): React.ReactElement {
           variant="outlined"
           color="primary"
           size="small"
+          onClick={() => { handleOpenUp(params.row) }}
         >
           <EditIcon />
-        </Button>
-      )
-    },
-    {
-      field: 'detalhes',
-      description: 'Detalhes do Veículo',
-      width: 100,
-      renderCell: (params) => (
-        <Button
-          variant="outlined"
-          color="success"
-          size="small"
-        >
-          <FeedIcon />
         </Button>
       )
     }
@@ -111,7 +106,7 @@ export default function TableFueling (): React.ReactElement {
     return fueling
   })
 
-  useState(() => {
+  useEffect(() => {
     void api.get('/fuelings')
       .then(({ data }) => {
         setFuelings(data.data)
@@ -123,6 +118,15 @@ export default function TableFueling (): React.ReactElement {
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
       >
         <h1>Abastecimentos({fuelings.length})</h1>
+        <div>
+          <Button
+            variant="outlined"
+            color="primary"
+            onClick={() => { setOpenAdd(true) }}
+          >
+            Abaster um carro
+          </Button>
+        </div>
       </Box>
       <Box sx={{ height: 630, width: '100%' }}>
         <DataGrid
@@ -141,6 +145,8 @@ export default function TableFueling (): React.ReactElement {
         />
       </Box>
       <DeleteFuelingModal fueling={selectFueling} open={open} setOpen={setOpen} />
+      <CreateFuelingModal openAdd={openAdd} setOpenAdd={setOpenAdd} />
+      <UpdateFuelingModal fueling={selectFueling} openUp={openUp} setOpenUp={setOpenUp} />
     </>
   )
 }

@@ -48,20 +48,6 @@ const CreateVehicleModal: React.FC<Props> = ({ openAdd, setOpenAdd }) => {
     handleClose()
   })
 
-  /* const submit = (id: number): void => {
-    void api.delete(`/vehicles/${id}`)
-      .then(({ data }) => {
-        console.log(data.message)
-        void api.get('/vehicles')
-          .then(({ data }) => {
-            setVehicles(data.data)
-          }).catch((e) => { setVehicles([]) })
-        handleClose()
-      }).catch((e) => {
-        console.log(e)
-      })
-  } */
-
   return (
     <Modal
       open={openAdd}
