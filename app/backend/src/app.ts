@@ -1,4 +1,5 @@
 import express, { type Router } from 'express'
+import cors from 'cors'
 
 class App {
   public app: express.Application
@@ -6,6 +7,7 @@ class App {
   constructor () {
     this.app = express()
     this.app.use(express.json())
+    this.app.use(cors())
   }
 
   startServer (PORT: string | number = 3001): void {

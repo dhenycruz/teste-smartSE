@@ -5,7 +5,7 @@ const model = new VehicleModel()
 
 export const verifyExistsVechicleChassi = async (req: Request, res: Response, next: NextFunction): Promise<Response | undefined> => {
   const { chassi } = req.body
-  const car = await model.getVehicleRenavan(chassi)
+  const car = await model.getVehicleChassi(chassi)
 
   if (car !== null) return res.status(409).json({ error: 'Chassi já cadastrado' })
 
@@ -17,6 +17,8 @@ export const verifyExistsVechicleRenavan = async (req: Request, res: Response, n
   const car = await model.getVehicleRenavan(renavan)
 
   if (car !== null) return res.status(409).json({ error: 'Renavan já cadastrado' })
+
+  next()
 }
 
 export const verifyExistsVechicle = async (req: Request, res: Response, next: NextFunction): Promise <Response | undefined> => {

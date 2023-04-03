@@ -29,7 +29,7 @@ class Login {
 
     const result = await validateLogin(authorization)
 
-    if (result === false) return res.status(401).json({ message: 'Not authorization!' })
+    if (result === false) return res.status(401).json({ auth: false, message: 'Not authorization!' })
 
     return res.status(201).json(result)
   }

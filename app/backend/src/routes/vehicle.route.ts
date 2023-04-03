@@ -2,6 +2,7 @@
 import { Router } from 'express'
 import CarController from '../controllers/vehicle.controller'
 import { verifyExistsVechicle, verifyExistsVechicleChassi, verifyExistsVechicleRenavan } from '../middleware/verifyVehicle'
+import { verifyToken } from '../middleware/verifyToken'
 
 class CarRouter {
   public router: Router
@@ -13,11 +14,11 @@ class CarRouter {
   }
 
   addRoute (route: string = this.controller.route): void {
-    this.router.get(route, this.controller.getAllVehicles)
-    this.router.get(`${route}/:id`, this.controller.getVehicle)
-    this.router.post(route, verifyExistsVechicleRenavan, verifyExistsVechicleChassi, this.controller.createVehicle)
-    this.router.put(`${route}/:id`, verifyExistsVechicle, verifyExistsVechicleRenavan, verifyExistsVechicleChassi, this.controller.updateVehicle)
-    this.router.delete(`${route}/:id`, verifyExistsVechicle, this.controller.deleteVehicle)
+    this.router.get(route, verifyToken, this.controller.getAllVehicles)
+    this.router.get(`${route}/:id`, verifyToken, this.controller.getVehicle)
+    this.router.post(route, verifyToken, verifyExistsVechicleRenavan, verifyExistsVechicleChassi, this.controller.createVehicle)
+    this.router.patch(`${route}/:id`, verifyToken, verifyExistsVechicle, this.controller.updateVehicle)
+    this.router.delete(`${route}/:id`, verifyToken, verifyExistsVechicle, this.controller.deleteVehicle)
   }
 }
 

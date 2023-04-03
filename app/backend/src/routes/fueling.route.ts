@@ -2,6 +2,7 @@
 import { Router } from 'express'
 import FuelingController from '../controllers/fueling.controller'
 import { verifyExistsFueling } from '../middleware/verifyFuelingDate'
+import { verifyToken } from '../middleware/verifyToken'
 
 class FuelingRoute {
   public router: Router
@@ -13,11 +14,11 @@ class FuelingRoute {
   }
 
   addRoute (route: string = this.controller.route): void {
-    this.router.get(route, this.controller.getAllFueling)
-    this.router.get(`${route}/:id`, verifyExistsFueling, this.controller.getFueling)
+    this.router.get(route, verifyToken, this.controller.getAllFueling)
+    this.router.get(`${route}/:id`, verifyToken, verifyExistsFueling, this.controller.getFueling)
     this.router.post(route, this.controller.createFueling)
-    this.router.put(`${route}/:id`, verifyExistsFueling, this.controller.updateFueling)
-    this.router.delete(`${route}/:id`, verifyExistsFueling, this.controller.deleteFueliong)
+    this.router.put(`${route}/:id`, verifyToken, verifyExistsFueling, this.controller.updateFueling)
+    this.router.delete(`${route}/:id`, verifyToken, verifyExistsFueling, this.controller.deleteFueliong)
   }
 }
 

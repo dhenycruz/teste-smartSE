@@ -1,21 +1,52 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Box, Typography, TextField, Button } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 import api from '../axios/api'
+import { GlobalContext } from '../context/globalContext'
+import InputMask from 'react-input-mask'
+
+type InputEvent = React.ChangeEvent<HTMLInputElement>
 
 const FormLogin = (): React.ReactElement => {
+  const { saveLoginToken } = useContext(GlobalContext)
+  const [cpfInput, setInputCPF] = useState<string>('')
   const [apiError, setApiEror] = useState<string[]>([])
+
+  const onChangeCPF = (event: InputEvent): void => {
+    setInputCPF(() => event.target.value)
+  }
+
+  const onBluerCPF = (event: InputEvent): void => {
+    let newCPF = event.target.value.replace(/\./g, '')
+    newCPF = newCPF.replace(/_/g, '')
+    newCPF = newCPF.replace(/-/g, '')
+
+    if (newCPF.length < 11) {
+      setApiEror(['CPF deve conter 11 dígitos!'])
+    }
+  }
+
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const submitLogin = handleSubmit((data) => {
-    console.log(data)
-    void api.post('/login', data)
+  const navigate = useNavigate()
+
+  const redirect = (url: string): void => {
+    navigate(url)
+  }
+
+  const submitLogin = handleSubmit(({ password }) => {
+    let newCPF = cpfInput.replace(/\./g, '')
+    newCPF = newCPF.replace(/_/g, '')
+    newCPF = newCPF.replace(/-/g, '')
+
+    void api.post('/login', { cpf: newCPF, password })
       .then(({ data }) => {
         setApiEror([])
-        console.log(data)
+        saveLoginToken(data.user, data.token)
+        redirect('/dashboard')
       }).catch((error) => {
-        console.log(error.response.data.message)
         setApiEror([error.response.data.message])
       })
   })
@@ -38,19 +69,14 @@ const FormLogin = (): React.ReactElement => {
         autoComplete='off'
       >
         <div>
-          <TextField
-            {...register('cpf', {
-              required: true,
-              minLength: 11
-            })}
-            inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-            aria-invalid={ (errors.cpf != null) ? 'true' : 'false' }
-            id='cpf'
-            label='CPF'
-            type='number'
-            variant='standard'
-            sx={{ marginBottom: 4 }}
-          />
+          <InputMask
+            mask="999.999.999-99"
+            value={cpfInput}
+            onChange={onChangeCPF}
+            onBlur={onBluerCPF}
+          >
+            <TextField label='CPF' variant='standard' />
+          </InputMask>
           <TextField
             {...register('password', { required: true })}
             id='password'
