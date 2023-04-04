@@ -46,6 +46,10 @@ De que coisas você precisa para instalar o software e como instalá-lo?
   - Iniciando o frontend
     - Para rodar o nosso frontend segue o mesmo esquema do backend, precisamos rodar apenas o comando:
       `npm run start:frontend`
+      
+      -CPF E senha para poder logar na aplicação:
+        CPF: 04223688146
+        SENHA: 123df
   
   Assim a nossa aplicação estará rodando localmente
 
