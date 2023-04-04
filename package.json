@@ -4,6 +4,13 @@
   "description": "Sistema de cadastro de veículos e abastecimentos.",
   "main": "index.js",
   "scripts": {
+    "install:apps": "./apps_install.sh",
+    "compose:up": "(docker-compose up -d)",
+    "compose:down": "(docker-compose down --remove-orphans)",
+    "start:backend":"(cd app/backend/  && npm run start)",
+    "start:frontend": "(cd app/frontend/ && npm run start)",
+    "stop:backend": "(cd app/backend/ && npm run stop",
+    "stop:frontend": "(cd app/frontend/ && npm run stop",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Dheniarley Cruz",

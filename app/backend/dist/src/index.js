@@ -1,0 +1,26 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const user_route_1 = __importDefault(require("./routes/user.route"));
+const vehicle_route_1 = __importDefault(require("./routes/vehicle.route"));
+const fueling_route_1 = __importDefault(require("./routes/fueling.route"));
+const app_1 = __importDefault(require("./app"));
+const dotenv_1 = __importDefault(require("dotenv"));
+const login_route_1 = __importDefault(require("./routes/login.route"));
+dotenv_1.default.config();
+const { PORT } = process.env;
+const loginRouter = new login_route_1.default();
+const userRouter = new user_route_1.default();
+const vehicleRouter = new vehicle_route_1.default();
+const fuelingRoute = new fueling_route_1.default();
+loginRouter.addRoute();
+userRouter.addRoute();
+vehicleRouter.addRoute();
+fuelingRoute.addRoute();
+app_1.default.addRouter(loginRouter.router);
+app_1.default.addRouter(userRouter.router);
+app_1.default.addRouter(vehicleRouter.router);
+app_1.default.addRouter(fuelingRoute.router);
+app_1.default.startServer(PORT);

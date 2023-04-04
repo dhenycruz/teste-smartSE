@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/index.ts -e ts",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "start": "npx prisma db push --force-reset && npx prisma db seed && npm run dev"
   },
   "prisma": {
     "seed": "node prisma/seed.mjs"

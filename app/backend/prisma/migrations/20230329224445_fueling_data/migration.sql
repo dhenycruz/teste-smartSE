@@ -40,7 +40,7 @@ CREATE TABLE "FuelingData" (
     "value" DECIMAL(9,2) NOT NULL,
     "quantity_fueled" DECIMAL(9,2) NOT NULL,
     "carId" INTEGER NOT NULL,
-    "dateFueled" datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    "dateFueled" timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
     CONSTRAINT "FuelingData_pkey" PRIMARY KEY ("id")
 );
